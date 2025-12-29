@@ -4,340 +4,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Law Examination System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Interactive MCQs Quiz</title>
     <style>
         :root {
-            --navy-dark: #0f172a;
-            --navy-light: #1e293b;
-            --accent-blue: #38bdf8;
-            --success: #10b981;
-            --error: #ef4444;
-            --text-main: #f8fafc;
-            --border: #334155;
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --light: #f4f7f6;
         }
 
         body {
-            background-color: var(--navy-dark);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
             margin: 0;
-            padding: 0;
+            padding: 20px;
+            color: var(--primary);
         }
 
-        /* Navbar & Header */
-        .navbar {
-            background: var(--navy-light);
-            padding: 1.2rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 2px solid var(--border);
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .logo {
-            font-weight: 700;
-            color: var(--accent-blue);
-            letter-spacing: 1px;
-        }
-
-        #timer {
-            font-family: monospace;
-            font-size: 1.5rem;
-            color: #fbbf24;
-        }
-
-        /* Progress Bar */
-        .progress-bar-wrap {
-            width: 100%;
-            height: 4px;
-            background: var(--border);
-            position: fixed;
-            top: 65px;
-            z-index: 1000;
-        }
-
-        #progress-fill {
-            width: 0%;
-            height: 100%;
-            background: var(--accent-blue);
-            transition: width 0.4s ease;
-        }
-
-        /* Layout */
-        .main-container {
-            max-width: 1100px;
-            margin: 50px auto;
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 30px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 850px) {
-            .main-container {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                position: static;
-                order: -1;
-            }
-        }
-
-        /* Question Cards */
-        .card {
-            background: var(--navy-light);
-            border-radius: 12px;
-            padding: 35px;
-            margin-bottom: 30px;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-        }
-
-        .q-label {
-            color: var(--accent-blue);
-            font-size: 0.9rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .q-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-
-        .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .option-btn {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border);
-            color: #94a3b8;
-            padding: 18px 25px;
-            text-align: left;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: 0.2s;
-        }
-
-        .option-btn:hover {
-            background: rgba(56, 189, 248, 0.05);
-            border-color: var(--accent-blue);
-        }
-
-        /* Answer States */
-        .correct {
-            background: rgba(16, 185, 129, 0.2) !important;
-            border-color: var(--success) !important;
-            color: white !important;
-        }
-
-        .wrong {
-            background: rgba(239, 68, 68, 0.2) !important;
-            border-color: var(--error) !important;
-            color: white !important;
-        }
-
-        .disabled {
-            pointer-events: none;
-            opacity: 0.8;
-        }
-
-        /* Sidebar Stats */
-        .sidebar {
-            background: var(--navy-light);
-            padding: 25px;
-            border-radius: 12px;
-            height: fit-content;
-            border: 1px solid var(--border);
-            position: sticky;
-            top: 110px;
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 18px;
-            background: var(--accent-blue);
-            color: var(--navy-dark);
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        /* Result Overlay */
-        #overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.98);
-            z-index: 2000;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        header {
             text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .category-section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .quiz-item {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-left: 5px solid #ddd;
+            transition: 0.3s;
+        }
+
+        .question {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        button.option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button.option:hover:not([disabled]) {
+            background-color: #f0f7ff;
+            border-color: var(--secondary);
+        }
+
+        button.correct {
+            background-color: var(--success) !important;
+            color: white;
+            border-color: var(--success);
+        }
+
+        button.wrong {
+            background-color: var(--danger) !important;
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .score-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        @media (max-width: 600px) {
+            .score-box {
+                position: static;
+                margin-bottom: 20px;
+                text-align: center;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <nav class="navbar">
-        <div class="logo">LAW EXAM PORTAL</div>
-        <div id="timer">15:00</div>
-    </nav>
+    <div class="container">
+        <header>
+            <h1>Study Quest: Law & Ethics</h1>
+            <p>Interactive Practice Exams</p>
+        </header>
 
-    <div class="progress-bar-wrap">
-        <div id="progress-fill"></div>
-    </div>
+        <div class="score-box">
+            Score: <span id="score">0</span> / <span id="total">0</span>
+        </div>
 
-    <div class="main-container">
-        <div id="quiz-area"></div>
+        <section class="category-section" id="law-section">
+            <h2>Section 1: Law Concepts</h2>
+            <div id="law-questions"></div>
+        </section>
 
-        <aside class="sidebar">
-            <h3 style="margin-top:0">Dashboard</h3>
-            <div class="stat-item"><span>Questions</span> <span style="font-weight:bold">20</span></div>
-            <div class="stat-item"><span>Completed</span> <span id="stat-done" style="font-weight:bold">0</span></div>
-            <div class="stat-item"><span>Accuracy</span> <span id="stat-acc"
-                    style="color:var(--accent-blue); font-weight:bold">0%</span></div>
-            <button class="submit-btn" onclick="showResults()">FINISH EXAM</button>
-        </aside>
-    </div>
+        <section class="category-section" id="ethics-section">
+            <h2>Section 2: Ethics</h2>
+            <div id="ethics-questions"></div>
+        </section>
 
-    <div id="overlay">
-        <h2 style="font-size: 2rem; color: var(--accent-blue);">EXAMINATION COMPLETE</h2>
-        <div id="final-score" style="font-size: 5rem; font-weight: 700; margin: 20px 0;">0 / 20</div>
-        <p id="grade-text" style="font-size: 1.2rem; color: #94a3b8;"></p>
-        <button class="submit-btn" style="width: 200px;" onclick="location.reload()">RETAKE</button>
+        <section class="category-section" id="hr-section">
+            <h2>Section 3: Human Rights</h2>
+            <div id="hr-questions"></div>
+        </section>
     </div>
 
     <script>
-        const sndCorrect = new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3');
-        const sndWrong = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3');
-        const sndClick = new Audio('https://www.soundjay.com/buttons/sounds/button-16.mp3');
-
-        // ضبط مستوى الصوت ليكون هادئاً وغير مزعج
-        sndCorrect.volume = 0.3;
-        sndWrong.volume = 0.3;
-        sndClick.volume = 0.2;
-    </script>
-
-    <script>
-        const questions = [
-            { q: "Which of the following is NOT a function of law?", options: ["Keeping the peace", "Providing chaotic change", "Maintaining the status quo", "Protecting minorities against majorities"], ans: 1 },
-            { q: "What type of law governs the actions of government agencies?", options: ["Civil Law", "Criminal Law", "Administrative Law", "Property Law"], ans: 2 },
-            { q: "Which type of law deals with offenses like theft and assault?", options: ["Criminal Law", "Civil Law", "Contract Law", "Administrative Law"], ans: 0 },
-            { q: "If someone breaches a contract, what kind of law applies?", options: ["Constitutional Law", "Criminal Law", "Family Law", "Contract Law"], ans: 3 },
-            { q: "Which type of law regulates family matters like divorce?", options: ["Property Law", "Family Law", "Administrative Law", "Criminal Law"], ans: 1 },
-            { q: "What is the source of international law?", options: ["Legal Precedents", "Customary Law", "Treaties and Conventions", "Statutes"], ans: 2 },
-            { q: "Which of the following is a private law case?", options: ["A murder trial", "Government agency fine", "Company suing for breach of contract", "Law passed by Parliament"], ans: 2 },
-            { q: "Ancient legal concept emphasizing tradition and social equality?", options: ["Magna Carta", "Ma'at", "Roman Law", "Napoleonic Code"], ans: 1 },
-            { q: "The constitution defines the relationship between:", options: ["Two corporations", "Government agencies and individuals", "Criminals and law enforcement", "Families in dispute"], ans: 1 },
-            { q: "Intellectual property law deals with:", options: ["Real estate", "Business contracts", "Copyrights, patents, trademarks", "Family disputes"], ans: 2 },
-            { q: "Which law governs disputes between private individuals?", options: ["Criminal Law", "Civil Law", "Public Law", "International Law"], ans: 1 },
-            { q: "What law applies when a child is adopted?", options: ["Criminal Law", "Constitutional Law", "Family Law", "Administrative Law"], ans: 2 },
-            { q: "The primary function of law is to cause disorder.", options: ["TRUE", "FALSE"], ans: 1 },
-            { q: "Constitutional law regulates government-citizen interaction.", options: ["TRUE", "FALSE"], ans: 0 },
-            { q: "Criminal law deals with offenses against individuals only.", options: ["TRUE", "FALSE"], ans: 1 },
-            { q: "Public law governs relationships between individuals only.", options: ["TRUE", "FALSE"], ans: 1 },
-            { q: "International law only applies to domestic disputes.", options: ["TRUE", "FALSE"], ans: 1 },
-            { q: "The concept of Ma'at emphasized equality and impartiality.", options: ["TRUE", "FALSE"], ans: 0 },
-            { q: "Family law does not cover child custody or support.", options: ["TRUE", "FALSE"], ans: 1 },
-            { q: "Contract law ensures agreements are legally binding.", options: ["TRUE", "FALSE"], ans: 0 }
-        ];
+        const quizData = {
+            law: [
+                { q: "Which of the following is NOT a function of law?", options: ["Keeping the peace", "Providing chaotic change", "Maintaining the status quo", "Protecting minorities against majorities"], correct: 1 },
+                { q: "What type of law governs the actions of government agencies?", options: ["Civil Law", "Criminal Law", "Administrative Law", "Property Law"], correct: 2 },
+                { q: "Which type of law deals with offenses like theft and assault?", options: ["Criminal Law", "Civil Law", "Contract Law", "Administrative Law"], correct: 0 },
+                { q: "If someone breaches a contract, what kind of law applies?", options: ["Constitutional Law", "Criminal Law", "Family Law", "Contract Law"], correct: 3 },
+                { q: "The primary function of the law is to cause disorder within society.", options: ["True", "False"], correct: 1 }
+            ],
+            ethics: [
+                { q: "What is the primary focus of ethics?", options: ["Maximizing personal wealth", "Guiding human behavior based on right and wrong", "Enforcing legal penalties", "Defining laws"], correct: 1 },
+                { q: "Which of the following is NOT a type of ethics?", options: ["Personal Ethics", "Professional Ethics", "Criminal Ethics", "Social Ethics"], correct: 2 },
+                { q: "An ethical dilemma involves:", options: ["Conflict between legal and illegal", "Choosing between two conflicting moral actions", "Identifying easiest solution", "Following all principles"], correct: 1 },
+                { q: "Ethics and morality are identical concepts.", options: ["True", "False"], correct: 1 }
+            ],
+            hr: [
+                { q: "What are human rights?", options: ["Rights granted by government", "Rights inherent to all human beings", "Privileges for citizens", "Benefits for oppressed groups"], correct: 1 },
+                { q: "Which of the following is NOT a fundamental human right?", options: ["Right to life", "Freedom from slavery", "Ownership of property for every citizen", "Freedom of expression"], correct: 2 },
+                { q: "The culture of impunity in conflict zones refers to:", options: ["Ensuring all are punished", "Holding perpetrators accountable", "Perpetrators not being held accountable", "Strict rule of law"], correct: 2 }
+            ]
+        };
 
         let score = 0;
-        let completed = 0;
-        let timeLeft = 15 * 60;
+        let answeredQuestions = 0;
 
-        // Timer logic
-        const timerInterval = setInterval(() => {
-            let mins = Math.floor(timeLeft / 60);
-            let secs = timeLeft % 60;
-            document.getElementById('timer').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-            if (timeLeft <= 0) { clearInterval(timerInterval); showResults(); }
-            timeLeft--;
-        }, 1000);
+        function loadQuiz(category, containerId) {
+            const container = document.getElementById(containerId);
+            quizData[category].forEach((item, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'quiz-item';
 
-        const quizArea = document.getElementById('quiz-area');
+                let optionsHtml = '';
+                item.options.forEach((opt, i) => {
+                    optionsHtml += `<button class="option" onclick="checkAnswer(this, ${i}, ${item.correct})">${opt}</button>`;
+                });
 
-        questions.forEach((item, qIdx) => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-            <span class="q-label">SECTION ${qIdx < 12 ? 'MCQ' : 'TRUE/FALSE'}</span>
-            <div class="q-title">${qIdx + 1}. ${item.q}</div>
-            <div class="options-list" id="g-${qIdx}"></div>
-        `;
-            const list = card.querySelector('.options-list');
-            item.options.forEach((opt, oIdx) => {
-                const b = document.createElement('button');
-                b.className = 'option-btn';
-                b.innerText = opt;
-                b.onclick = () => handleChoice(b, qIdx, oIdx, item.ans);
-                list.appendChild(b);
+                questionDiv.innerHTML = `
+                <div class="question">${index + 1}. ${item.q}</div>
+                <div class="options">${optionsHtml}</div>
+            `;
+                container.appendChild(questionDiv);
             });
-            quizArea.appendChild(card);
-        });
+        }
 
-        function handleChoice(btn, qIdx, oIdx, correctIdx) {
-            const group = document.getElementById(`g-${qIdx}`);
-            if (group.classList.contains('disabled')) return;
+        function checkAnswer(btn, selected, correct) {
+            const parent = btn.parentElement;
+            const options = parent.querySelectorAll('.option');
 
-            group.classList.add('disabled');
-            completed++;
-            sndClick.play();
+            // Prevent multiple clicks
+            options.forEach(opt => opt.disabled = true);
 
-            const allButtons = group.querySelectorAll('.option-btn');
-            if (oIdx === correctIdx) {
+            if (selected === correct) {
                 btn.classList.add('correct');
                 score++;
-                setTimeout(() => sndCorrect.play(), 200);
             } else {
                 btn.classList.add('wrong');
-                allButtons[correctIdx].classList.add('correct');
-                setTimeout(() => sndWrong.play(), 200);
+                options[correct].classList.add('correct');
             }
 
-            // Update stats
-            document.getElementById('stat-done').innerText = completed;
-            document.getElementById('stat-acc').innerText = Math.round((score / completed) * 100) + "%";
-            document.getElementById('progress-fill').style.width = (completed / questions.length) * 100 + "%";
+            answeredQuestions++;
+            document.getElementById('score').innerText = score;
+            document.getElementById('total').innerText = answeredQuestions;
         }
 
-        function showResults() {
-            clearInterval(timerInterval);
-            const overlay = document.getElementById('overlay');
-            const finalScore = document.getElementById('final-score');
-            const gradeText = document.getElementById('grade-text');
-
-            overlay.style.display = 'flex';
-            finalScore.innerText = `${score} / ${questions.length}`;
-
-            if (score >= 18) gradeText.innerText = "Excellent Achievement. You are ready for the bar exam.";
-            else if (score >= 12) gradeText.innerText = "Satisfactory Knowledge. Some review is recommended.";
-            else gradeText.innerText = "Further Legal Studies Required.";
-        }
+        // Initialize
+        loadQuiz('law', 'law-questions');
+        loadQuiz('ethics', 'ethics-questions');
+        loadQuiz('hr', 'hr-questions');
     </script>
 
 </body>

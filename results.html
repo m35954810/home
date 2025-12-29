@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتائج البحث</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #fff;
+            margin: 0;
+        }
+
+        /* الشريط العلوي */
+        .navbar {
+            display: flex;
+            align-items: center;
+            padding: 15px 5%;
+            border-bottom: 1px solid #eee;
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .logo-small {
+            font-size: 28px;
+            font-weight: 900;
+            color: #000;
+            text-decoration: none;
+            margin-left: 30px;
+        }
+
+        .search-wrapper {
+            flex-grow: 1;
+            max-width: 700px;
+        }
+
+        /* منطقة النتائج */
+        .results-area {
+            padding: 20px 5%;
+            max-width: 900px;
+        }
+
+        /* --- إخفاء آثار جوجل في صفحة النتائج --- */
+        .gcsc-branding,
+        .gsc-adBlock,
+        .gsc-above-wrapper-area-container {
+            display: none !important;
+        }
+
+        .gsc-control-cse {
+            border: none !important;
+            padding: 0 !important;
+        }
+
+        .gsc-webResult.gsc-result {
+            padding: 15px 0 !important;
+            border-bottom: 1px solid #f0f0f0 !important;
+        }
+
+        .gs-title {
+            color: #1a0dab !important;
+            text-decoration: none !important;
+            font-size: 18px !important;
+        }
+
+        .gs-snippet {
+            font-size: 14px !important;
+            color: #444 !important;
+        }
+
+        .gsc-cursor-page {
+            font-size: 16px !important;
+            padding: 5px 10px !important;
+            color: #000 !important;
+        }
+
+        .gsc-cursor-current-page {
+            color: #c5a059 !important;
+            font-weight: bold !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <a href="index.html" class="logo-small">EGYPT</a>
+        <div class="search-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=b1cbd5207bb5e450d"></script>
+            <div class="gcse-searchbox-only" data-resultsUrl="results.html"></div>
+        </div>
+    </div>
+
+    <div class="results-area">
+        <div class="gcse-searchresults-only"></div>
+    </div>
+
+    <script>
+        // تنظيف مستمر
+        setInterval(() => {
+            const branding = document.querySelector('.gcsc-branding');
+            if (branding) branding.remove();
+        }, 500);
+    </script>
+</body>
+
+</html>

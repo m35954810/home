@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGYPT | المحرك الوطني</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main-color: #000;
+            --accent: #c5a059;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            background: url('https://source.unsplash.com/1920x1080/?egypt,cairo') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* طبقة تعتيم على الخلفية */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+            backdrop-filter: blur(5px);
+        }
+
+        /* المعلومات الحية (طقس ووقت) */
+        .live-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .info-card {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* الشعار */
+        .logo {
+            font-size: 100px;
+            font-weight: 900;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px #c5a059;
+        }
+
+        /* صندوق البحث */
+        .search-container {
+            width: 90%;
+            max-width: 650px;
+            position: relative;
+        }
+
+        /* --- منطقة تنظيف جوجل (ممنوع اللمس) --- */
+        .gcsc-branding,
+        .gsc-adBlock {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
+
+        .gsc-control-cse {
+            padding: 0 !important;
+            border: none !important;
+            background: transparent !important;
+        }
+
+        .gsc-input-box {
+            border: 2px solid #000 !important;
+            border-radius: 40px !important;
+            padding: 10px 20px !important;
+            background: transparent !important;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        input.gsc-input {
+            background: none !important;
+            text-indent: 0 !important;
+            font-size: 18px !important;
+        }
+
+        button.gsc-search-button-v2 {
+            background: #000 !important;
+            border-radius: 50% !important;
+            padding: 14px !important;
+            cursor: pointer;
+            border: none !important;
+            margin-right: 10px;
+        }
+
+        button.gsc-search-button-v2 svg {
+            fill: white !important;
+        }
+
+        /* نص توضيحي داخل الصندوق (Placeholder بديل) */
+        .custom-placeholder {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            pointer-events: none;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        /* الاقتراحات السريعة */
+        .suggestions {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tag {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .tag:hover {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+
+        /* الفوتر */
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 12px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="live-info">
+        <div class="info-card">⏰ <span id="time-display">--:--</span></div>
+        <div class="info-card">🌡️ <span id="weather-display">جاري التحميل...</span></div>
+    </div>
+
+    <div class="logo">EGYPT</div>
+
+    <div class="search-container">
+        <div class="custom-placeholder" id="placeholder-text">ابحث عن أي شيء في مصر...</div>
+
+        <script async src="https://cse.google.com/cse.js?cx=b1cbd5207bb5e450d"></script>
+        <div class="gcse-searchbox-only" data-resultsUrl="results.html"></div>
+    </div>
+
+    <div class="suggestions">
+        <div class="tag" onclick="forceSearch('أخبار مصر اليوم')">📰 أخبار عاجلة</div>
+        <div class="tag" onclick="forceSearch('سعر الدولار الآن')">💵 أسعار العملات</div>
+        <div class="tag" onclick="forceSearch('حالة الطقس غداً')">🌤️ الطقس</div>
+        <div class="tag" onclick="forceSearch('مباريات اليوم')">⚽ الكرة المصرية</div>
+    </div>
+
+    <div class="footer">© 2025 EGYPT Search Engine - جميع الحقوق محفوظة</div>
+
+    <script>
+        // 1. كود الساعة الحقيقية
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('time-display').innerText = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+        }
+        setInterval(updateTime, 1000);
+
+        // 2. كود الطقس الحقيقي (API مجاني)
+        async function getWeather() {
+            try {
+                // إحداثيات القاهرة تقريبية
+                const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=30.04&longitude=31.23&current_weather=true');
+                const data = await response.json();
+                document.getElementById('weather-display').innerText = `${data.current_weather.temperature}°C القاهرة`;
+            } catch (e) {
+                document.getElementById('weather-display').innerText = "25°C"; // قيمة افتراضية في حال الخطأ
+            }
+        }
+        getWeather();
+
+        // 3. كود البحث عند الضغط على الاقتراحات
+        function forceSearch(term) {
+            const input = document.querySelector('input.gsc-input');
+            const btn = document.querySelector('button.gsc-search-button-v2');
+            if (input && btn) {
+                input.value = term;
+                btn.click();
+            }
+        }
+
+        // 4. كود إخفاء جوجل والتحكم في الـ Placeholder
+        setInterval(() => {
+            // حذف اللوجو
+            const branding = document.querySelector('.gcsc-branding');
+            if (branding) branding.style.display = 'none';
+
+            // التحكم في النص التوضيحي
+            const input = document.querySelector('input.gsc-input');
+            const placeholder = document.getElementById('placeholder-text');
+            if (input) {
+                input.style.background = 'transparent'; // ضمان الشفافية
+                if (input.value.length > 0) placeholder.style.opacity = '0';
+                else placeholder.style.opacity = '1';
+
+                // إضافة مستمع للكتابة
+                input.addEventListener('input', function () {
+                    placeholder.style.opacity = this.value ? '0' : '1';
+                });
+            }
+        }, 200);
+    </script>
+</body>
+
+</html>

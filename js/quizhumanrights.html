@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار تفاعلي: القانون، الأخلاق، وحقوق الإنسان</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option {
+            background: #f8f9fa;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .option:hover {
+            border-color: var(--accent-color);
+            background: #eef7fd;
+        }
+
+        .selected {
+            border-color: var(--accent-color) !important;
+            background: #eef7fd !important;
+        }
+
+        .correct {
+            background: #d4edda !important;
+            border-color: #28a745 !important;
+            color: #155724;
+        }
+
+        .wrong {
+            background: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #721c24;
+        }
+
+        #submit-btn,
+        #retry-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #result {
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 20px;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>اختبار شامل (قانون - أخلاقيات - حقوق إنسان)</h1>
+        <div id="quiz-container"></div>
+        <button id="submit-btn" onclick="checkAnswers()">عرض النتيجة</button>
+        <div id="result"></div>
+        <button id="retry-btn" onclick="location.reload()" style="display:none;">إعادة الاختبار</button>
+    </div>
+
+    <script>
+        // تجميع عينة من الأسئلة من الملفات المرفقة
+        const questionsPool = [
+            // من ملف حقوق الإنسان في مناطق النزاع
+            [cite_start]{ q: "ما هو التحدي الذي لا يعتبر عائقاً في إنفاذ حقوق الإنسان في مناطق النزاع؟ [cite: 1]", options: ["نقص الأمن", "سهولة الوصول للمناطق", "نقص الموارد", "الديناميكيات السياسية المعقدة"], correct: 1 },
+            [cite_start]{ q: "ماذا تشير ثقافة الإفلات من العقاب في مناطق النزاع؟ [cite: 13, 16]", options: ["معاقبة كل المخالفين", "محاسبة الجناة", "عدم محاسبة مرتكبي الانتهاكات", "سيادة القانون"], correct: 2 },
+
+            // من ملف الأخلاقيات
+            [cite_start]{ q: "ما هو التركيز الأساسي للأخلاقيات؟ [cite: 87, 89]", options: ["زيادة الثروة الشخصية", "فهم وتوجيه السلوك البشري بناءً على الصواب والخطأ", "فرض العقوبات القانونية", "تحديد القوانين المجتمعية"], correct: 1 },
+            [cite_start]{ q: "أي مما يلي ليس نوعاً من أنواع الأخلاقيات؟ [cite: 93, 96]", options: ["أخلاقيات شخصية", "أخلاقيات مهنية", "أخلاقيات إجرامية", "أخلاقيات اجتماعية"], correct: 2 },
+            [cite_start]{ q: "الأخلاقيات والقيم الأخلاقية (Morality) هما مفاهيم متطابقة تماماً. [cite: 124, 127]", options: ["صح", "خطأ"], correct: 1 },
+
+            // من ملف حقوق الإنسان
+            [cite_start]{ q: "ما هي حقوق الإنسان؟ [cite: 217, 219]", options: ["حقوق تمنحها الحكومة للجنسيات المعينة", "حقوق متأصلة لجميع البشر بغض النظر عن العرق أو الجنس", "امتيازات للمواطنين فقط", "مساعدات دولية"], correct: 1 },
+            [cite_start]{ q: "أي هيئة دولية تتعامل مع قضايا انتهاكات حقوق الإنسان؟ [cite: 252, 257]", options: ["محكمة العدل الدولية", "منظمة الصحة العالمية", "صندوق النقد الدولي", "البنك الدولي"], correct: 0 },
+
+            // من ملف القانون
+            [cite_start]{ q: "ما هو القانون الذي يحكم تصرفات الوكالات الحكومية؟ [cite: 440, 443]", options: ["القانون المدني", "القانون الجنائي", "القانون الإداري", "قانون الملكية"], correct: 2 },
+            [cite_start]{ q: "المفهوم المصري القديم 'ماعت' (Ma'at) ركز على: [cite: 478, 481]", options: ["الماجنا كارتا", "المساواة والعدالة والتقاليد", "القانون الروماني", "قانون نابليون"], correct: 1 },
+            [cite_start]{ q: "قانون الملكية الفكرية يتعامل مع: [cite: 488, 491]", options: ["العقارات", "العقود التجارية", "حقوق النشر، براءات الاختراع، والعلامات التجارية", "نزاعات الأسرة"], correct: 2 }
+        ];
+
+        // اختيار 10 أسئلة عشوائية
+        const selectedQuestions = questionsPool.sort(() => 0.5 - Math.random()).slice(0, 10);
+
+        function loadQuiz() {
+            const container = document.getElementById('quiz-container');
+            selectedQuestions.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.innerHTML = `
+            <div class="question">${index + 1}. ${q.q}</div>
+            <ul class="options" id="q${index}">
+                ${q.options.map((opt, i) => `<li class="option" onclick="selectOption(${index}, ${i})">${opt}</li>`).join('')}
+            </ul>
+        `;
+                container.appendChild(card);
+            });
+        }
+
+        const userAnswers = {};
+
+        function selectOption(qIdx, optIdx) {
+            userAnswers[qIdx] = optIdx;
+            const options = document.querySelectorAll(`#q${qIdx} .option`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[optIdx].classList.add('selected');
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            selectedQuestions.forEach((q, i) => {
+                const options = document.querySelectorAll(`#q${i} .option`);
+                if (userAnswers[i] === q.correct) {
+                    score++;
+                    options[q.correct].classList.add('correct');
+                } else {
+                    if (userAnswers[i] !== undefined) options[userAnswers[i]].classList.add('wrong');
+                    options[q.correct].classList.add('correct');
+                }
+            });
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `درجتك هي: ${score} من 10`;
+            document.getElementById('submit-btn').style.display = 'none';
+            document.getElementById('retry-btn').style.display = 'block';
+        }
+
+        loadQuiz();
+    </script>
+
+</body>
+
+</html>
