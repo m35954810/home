@@ -4,13 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ميلانو لايف | Milano Facebook Live</title>
+    <title>ميلانو لايف | Milano Mobile Pro</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@600&display=swap');
 
         :root {
-            --primary: #e61919;
-            --glass: rgba(0, 0, 0, 0.85);
+            --milano-red: #e61919;
+            --dark-bg: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body,
@@ -19,7 +23,7 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            background: #000;
+            background: #0a0a0a;
             font-family: 'Cairo', sans-serif;
             color: white;
             overflow: hidden;
@@ -28,25 +32,29 @@
             align-items: center;
         }
 
-        .milano-player {
+        /* حاوية المشغل المتجاوبة */
+        .player-container {
             position: relative;
-            width: 95%;
-            max-width: 1100px;
+            width: 100%;
+            max-width: 1000px;
+            /* لأجهزة الكمبيوتر */
+            margin: auto;
             background: #000;
-            border-radius: 20px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 0 40px rgba(230, 25, 25, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            border: 1px solid #222;
         }
 
-        .video-stage {
+        /* نسبة العرض للارتفاع 16:9 */
+        .video-box {
             position: relative;
             width: 100%;
             padding-top: 56.25%;
+            /* يحافظ على التناسب في الموبايل */
             background: #000;
         }
 
-        /* مشغل الفيديوهات العادية */
         video {
             position: absolute;
             top: 0;
@@ -54,48 +62,38 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            display: none;
+            cursor: pointer;
         }
 
-        /* مشغل الفيسبوك */
-        iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: none;
-        }
+        /* --- توزيع العناصر العلوية --- */
 
         /* اللوجو يمين */
-        .brand-logo {
+        .logo-right {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 20;
+            top: 15px;
+            right: 15px;
+            z-index: 10;
+            width: 22%;
+            max-width: 100px;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8));
         }
 
-        .brand-logo img {
-            width: 100px;
-            filter: drop-shadow(0 4px 8px #000);
-        }
-
-        /* مباشر شمال */
-        .live-badge {
+        /* لايف شمال */
+        .live-left {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            background: var(--primary);
-            padding: 5px 15px;
-            border-radius: 5px;
+            top: 15px;
+            left: 15px;
+            z-index: 10;
+            background: var(--milano-red);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: clamp(10px, 3vw, 14px);
             font-weight: 800;
-            font-size: 13px;
-            z-index: 20;
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 0 15px rgba(230, 25, 25, 0.5);
+            gap: 6px;
+            box-shadow: 0 0 10px rgba(230, 25, 25, 0.5);
         }
 
         .dot {
@@ -103,63 +101,86 @@
             height: 8px;
             background: #fff;
             border-radius: 50%;
-            animation: pulse 1s infinite;
+            animation: blink 1s infinite;
         }
 
-        /* شريط الأخبار والساعة */
-        .info-strip {
-            height: 60px;
-            background: #080808;
+        /* --- الشريط السفلي الاحترافي --- */
+        .footer-bar {
+            height: 50px;
+            background: #000;
             display: flex;
             align-items: center;
-            border-top: 3px solid var(--primary);
+            border-top: 2px solid var(--milano-red);
         }
 
-        .clock-section {
+        .clock-part {
             background: #111;
-            min-width: 130px;
             height: 100%;
+            min-width: 90px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-left: 2px solid var(--primary);
+            border-left: 2px solid var(--milano-red);
         }
 
-        #d-clock {
+        #time {
             font-family: 'Orbitron';
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 0.9rem;
+            font-weight: bold;
         }
 
-        #ap-tag {
-            font-size: 0.6rem;
-            color: var(--primary);
+        #ampm {
+            font-size: 0.55rem;
+            color: var(--milano-red);
+            font-weight: bold;
         }
 
-        .ticker-label {
-            background: var(--primary);
-            padding: 0 20px;
+        .news-label {
+            background: var(--milano-red);
+            color: white;
             height: 100%;
+            padding: 0 15px;
             display: flex;
             align-items: center;
-            font-weight: 900;
+            font-weight: 800;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
 
-        .ticker-wrap {
+        .news-ticker {
             flex: 1;
             overflow: hidden;
+            position: relative;
         }
 
         .ticker-text {
             display: inline-block;
             white-space: nowrap;
-            animation: march 45s linear infinite;
-            font-size: 1.1rem;
+            animation: moveNews 35s linear infinite;
+            font-size: clamp(14px, 4vw, 17px);
+            font-weight: 600;
             padding-right: 100%;
         }
 
-        @keyframes march {
+        /* تنبيه كتم الصوت للموبايل */
+        #mute-hint {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            z-index: 20;
+            pointer-events: none;
+            border: 1px solid var(--milano-red);
+            transition: 0.5s;
+        }
+
+        @keyframes moveNews {
             from {
                 transform: translateX(0);
             }
@@ -169,7 +190,7 @@
             }
         }
 
-        @keyframes pulse {
+        @keyframes blink {
 
             0%,
             100% {
@@ -181,112 +202,86 @@
             }
         }
 
-        #overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        /* تعديلات الموبايل الصغير */
+        @media (max-width: 480px) {
+            .footer-bar {
+                height: 45px;
+            }
 
-        .btn-play {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1.2rem;
+            .clock-part {
+                min-width: 75px;
+            }
+
+            .news-label {
+                padding: 0 8px;
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="milano-player" id="mainP">
-        <div id="overlay"><button class="btn-play" onclick="startApp()">فتح البث المباشر</button></div>
+    <div class="player-container">
+        <div id="mute-hint">🔊 اضغط لتشغيل الصوت</div>
 
-        <div class="brand-logo"><img src="https://assets.wuiltstore.com/cmfbdqfuv5t1f01ksftsd0sd9_24608050337.png">
-        </div>
-        <div class="live-badge">
-            <div class="dot"></div> مباشر LIVE
-        </div>
+        <img src="https://assets.wuiltstore.com/cmfbdqfuv5t1f01ksftsd0sd9_24608050337.png" class="logo-right">
 
-        <div class="video-stage">
-            <iframe id="fbPlayer" allowfullscreen="true"
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-            <video id="normalVideo" playsinline></video>
+        <div class="live-left">
+            <div class="dot"></div> مباشر
         </div>
 
-        <div class="info-strip">
-            <div class="clock-section">
-                <div id="d-clock">00:00:00</div>
-                <div id="ap-tag">AM</div>
+        <div class="video-box">
+            <video id="milanoPlayer" autoplay muted playsinline onclick="unmute()"></video>
+        </div>
+
+        <div class="footer-bar">
+            <div class="clock-part">
+                <div id="time">00:00:00</div>
+                <div id="ampm">AM</div>
             </div>
-            <div class="ticker-label">أخبار ميلانو</div>
-            <div class="ticker-wrap">
-                <div class="ticker-text">شركة ميلانو ترحب بكم .. شاهدوا البث المباشر الآن لأقوى العروض الحصرية .. جودة
-                    عالمية وأسعار تنافسية .. تابعونا لكل جديد ..</div>
+            <div class="news-label">أخبار ميلانو</div>
+            <div class="news-ticker">
+                <div class="ticker-text">
+                    شركة ميلانو ترحب بكم في البث المباشر الموحد .. تابعونا لأحدث العروض والخصومات الحصرية .. جودة عالمية
+                    وأسعار تنافسية تناسب الجميع ..
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // فيديو الفيسبوك في المركز الأول
-        const fbVideoUrl = "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FAlHayah1TV%2Fvideos%2F856809677141431%2F&show_text=0&autoplay=1";
-
-        // قائمة الفيديوهات العادية (تأتي بعد فيسبوك)
         const playlist = [
-            { type: 'fb', url: fbVideoUrl, dur: 300 }, // سنعتبر مدة فيديو الفيسبوك 5 دقائق كمثال للمزامنة
-            { type: 'mp4', url: "https://res.cloudinary.com/depn2pidf/video/upload/v1767042012/1_mwodxc.mp4", dur: 25 },
-            { type: 'mp4', url: "https://res.cloudinary.com/depn2pidf/video/upload/v1767042086/3_oylv15.mp4", dur: 24 },
-            { type: 'mp4', url: "https://res.cloudinary.com/depn2pidf/video/upload/v1767042146/4_ugrgum.mp4", dur: 16 },
-            { type: 'mp4', url: "https://res.cloudinary.com/depn2pidf/video/upload/v1767042227/5_ubngav.mp4", dur: 26 }
+            { url: "https://res.cloudinary.com/depn2pidf/video/upload/v1767042012/1_mwodxc.mp4", dur: 25 },
+            { url: "https://res.cloudinary.com/depn2pidf/video/upload/v1767042086/3_oylv15.mp4", dur: 24 },
+            { url: "https://res.cloudinary.com/depn2pidf/video/upload/v1767042146/4_ugrgum.mp4", dur: 16 },
+            { url: "https://res.cloudinary.com/depn2pidf/video/upload/v1767042227/5_ubngav.mp4", dur: 26 }
         ];
 
-        const fbIframe = document.getElementById('fbPlayer');
-        const normalVid = document.getElementById('normalVideo');
-        const totalDuration = playlist.reduce((a, b) => a + b.dur, 0);
-
-        function startApp() {
-            document.getElementById('overlay').style.display = 'none';
-            sync();
-        }
+        const video = document.getElementById('milanoPlayer');
+        const hint = document.getElementById('mute-hint');
+        const totalD = playlist.reduce((a, b) => a + b.dur, 0);
 
         function sync() {
-            const now = new Date();
-            const secondsInDay = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
-            let pos = secondsInDay % totalDuration;
-
+            const d = new Date();
+            const s = (d.getHours() * 3600) + (d.getMinutes() * 60) + d.getSeconds();
+            let pos = s % totalD;
             let acc = 0, idx = 0, seek = 0;
+
             for (let i = 0; i < playlist.length; i++) {
-                if (pos < acc + playlist[i].dur) {
-                    idx = i; seek = pos - acc; break;
-                }
+                if (pos < acc + playlist[i].dur) { idx = i; seek = pos - acc; break; }
                 acc += playlist[i].dur;
             }
+            video.src = playlist[idx].url;
+            video.currentTime = seek;
+            video.play().catch(() => { /* منع خطأ التشغيل التلقائي */ });
+            video.onended = sync;
+        }
 
-            const current = playlist[idx];
-
-            if (current.type === 'fb') {
-                normalVid.style.display = 'none';
-                normalVid.pause();
-                fbIframe.style.display = 'block';
-                fbIframe.src = current.url;
-                // فيسبوك لا يسمح بالتحكم في وقت البدء عبر iframe العادي بسهولة، لذا سيعمل من بدايته
-                setTimeout(sync, (current.dur - seek) * 1000);
-            } else {
-                fbIframe.style.display = 'none';
-                fbIframe.src = "";
-                normalVid.style.display = 'block';
-                normalVid.src = current.url;
-                normalVid.currentTime = seek;
-                normalVid.play();
-                normalVid.onended = sync;
-            }
+        function unmute() {
+            video.muted = false;
+            hint.style.opacity = '0';
+            setTimeout(() => hint.style.display = 'none', 500);
         }
 
         // تحديث الساعة 12H
@@ -297,9 +292,11 @@
             const s = String(d.getSeconds()).padStart(2, '0');
             const ap = h >= 12 ? 'مساءً PM' : 'صباحاً AM';
             h = h % 12 || 12;
-            document.getElementById('d-clock').innerText = `${String(h).padStart(2, '0')}:${m}:${s}`;
-            document.getElementById('ap-tag').innerText = ap;
+            document.getElementById('time').innerText = `${String(h).padStart(2, '0')}:${m}:${s}`;
+            document.getElementById('ampm').innerText = ap;
         }, 1000);
+
+        window.onload = sync;
     </script>
 
 </body>
