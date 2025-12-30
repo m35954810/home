@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ميلانو لايف | Milano Facebook Live</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@700&display=swap');
+
+        :root {
+            --primary: #e61919;
+            --glass: rgba(0, 0, 0, 0.85);
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            font-family: 'Cairo', sans-serif;
+            color: white;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .milano-player {
+            position: relative;
+            width: 95%;
+            max-width: 1100px;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(230, 25, 25, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .video-stage {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
+        }
+
+        /* مشغل الفيديوهات العادية */
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+
+        /* مشغل الفيسبوك */
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+        }
+
+        /* اللوجو يمين */
+        .brand-logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 20;
+        }
+
+        .brand-logo img {
+            width: 100px;
+            filter: drop-shadow(0 4px 8px #000);
+        }
+
+        /* مباشر شمال */
+        .live-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--primary);
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: 800;
+            font-size: 13px;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(230, 25, 25, 0.5);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        /* شريط الأخبار والساعة */
+        .info-strip {
+            height: 60px;
+            background: #080808;
+            display: flex;
+            align-items: center;
+            border-top: 3px solid var(--primary);
+        }
+
+        .clock-section {
+            background: #111;
+            min-width: 130px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-left: 2px solid var(--primary);
+        }
+
+        #d-clock {
+            font-family: 'Orbitron';
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        #ap-tag {
+            font-size: 0.6rem;
+            color: var(--primary);
+        }
+
+        .ticker-label {
+            background: var(--primary);
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            font-weight: 900;
+        }
+
+        .ticker-wrap {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .ticker-text {
+            display: inline-block;
+            white-space: nowrap;
+            animation: march 45s linear infinite;
+            font-size: 1.1rem;
+            padding-right: 100%;
+        }
+
+        @keyframes march {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        #overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-play {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="milano-player" id="mainP">
+        <div id="overlay"><button class="btn-play" onclick="startApp()">فتح البث المباشر</button></div>
+
+        <div class="brand-logo"><img src="https://assets.wuiltstore.com/cmfbdqfuv5t1f01ksftsd0sd9_24608050337.png">
+        </div>
+        <div class="live-badge">
+            <div class="dot"></div> مباشر LIVE
+        </div>
+
+        <div class="video-stage">
+            <iframe id="fbPlayer" allowfullscreen="true"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+            <video id="normalVideo" playsinline></video>
+        </div>
+
+        <div class="info-strip">
+            <div class="clock-section">
+                <div id="d-clock">00:00:00</div>
+                <div id="ap-tag">AM</div>
+            </div>
+            <div class="ticker-label">أخبار ميلانو</div>
+            <div class="ticker-wrap">
+                <div class="ticker-text">شركة ميلانو ترحب بكم .. شاهدوا البث المباشر الآن لأقوى العروض الحصرية .. جودة
+                    عالمية وأسعار تنافسية .. تابعونا لكل جديد ..</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // فيديو الفيسبوك في المركز الأول
+        const fbVideoUrl = "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FAlHayah1TV%2Fvideos%2F856809677141431%2F&show_text=0&autoplay=1";
+
+        // قائمة الفيديوهات العادية (تأتي بعد فيسبوك)
+        const playlist = [
+            { type: 'fb', url: fbVideoUrl, dur: 300 }, // سنعتبر مدة فيديو الفيسبوك 5 دقائق كمثال للمزامنة
+            { type: 'mp4', url: "https://res.cloudinary.com/depn2pidf/video/upload/v1767042012/1_mwodxc.mp4", dur: 25 },
+            { type: 'mp4', url: "https://res.cloudinary.com/depn2pidf/video/upload/v1767042086/3_oylv15.mp4", dur: 24 },
+            { type: 'mp4', url: "https://res.cloudinary.com/depn2pidf/video/upload/v1767042146/4_ugrgum.mp4", dur: 16 },
+            { type: 'mp4', url: "https://res.cloudinary.com/depn2pidf/video/upload/v1767042227/5_ubngav.mp4", dur: 26 }
+        ];
+
+        const fbIframe = document.getElementById('fbPlayer');
+        const normalVid = document.getElementById('normalVideo');
+        const totalDuration = playlist.reduce((a, b) => a + b.dur, 0);
+
+        function startApp() {
+            document.getElementById('overlay').style.display = 'none';
+            sync();
+        }
+
+        function sync() {
+            const now = new Date();
+            const secondsInDay = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
+            let pos = secondsInDay % totalDuration;
+
+            let acc = 0, idx = 0, seek = 0;
+            for (let i = 0; i < playlist.length; i++) {
+                if (pos < acc + playlist[i].dur) {
+                    idx = i; seek = pos - acc; break;
+                }
+                acc += playlist[i].dur;
+            }
+
+            const current = playlist[idx];
+
+            if (current.type === 'fb') {
+                normalVid.style.display = 'none';
+                normalVid.pause();
+                fbIframe.style.display = 'block';
+                fbIframe.src = current.url;
+                // فيسبوك لا يسمح بالتحكم في وقت البدء عبر iframe العادي بسهولة، لذا سيعمل من بدايته
+                setTimeout(sync, (current.dur - seek) * 1000);
+            } else {
+                fbIframe.style.display = 'none';
+                fbIframe.src = "";
+                normalVid.style.display = 'block';
+                normalVid.src = current.url;
+                normalVid.currentTime = seek;
+                normalVid.play();
+                normalVid.onended = sync;
+            }
+        }
+
+        // تحديث الساعة 12H
+        setInterval(() => {
+            const d = new Date();
+            let h = d.getHours();
+            const m = String(d.getMinutes()).padStart(2, '0');
+            const s = String(d.getSeconds()).padStart(2, '0');
+            const ap = h >= 12 ? 'مساءً PM' : 'صباحاً AM';
+            h = h % 12 || 12;
+            document.getElementById('d-clock').innerText = `${String(h).padStart(2, '0')}:${m}:${s}`;
+            document.getElementById('ap-tag').innerText = ap;
+        }, 1000);
+    </script>
+
+</body>
+
+</html>
