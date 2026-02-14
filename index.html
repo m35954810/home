@@ -4,296 +4,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محمد أيمن | Coming Soon</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-</head>
+    <title>محمد أيمن يحيا | شريك في منصة دليل الفيوم الآن - fayoum.space</title>
+    <link rel="icon" type="image/png" href="businessman.png" />
+    <meta name="description"
+        content="الموقع الرسمي لمحمد أيمن يحيا من الفيوم، طالب في جامعة السويدي وشريك مؤسس في منصة دليل الفيوم الآن fayoum.space.">
+    <meta name="keywords" content="محمد أيمن يحيا, الفيوم, دليل الفيوم, fayoum.space, جامعة السويدي">
 
-<body>
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="محمد أيمن يحيا | fayoum.space">
+    <meta property="og:description" content="شريك في منصة دليل الفيوم الآن - الموقع الرسمي">
+    <meta property="og:image" content="https://i.imgur.com/0qR8Y9J.jpeg">
+    <meta property="og:url" content="https://fayoum.space">
+    <meta property="og:type" content="website">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Cairo', sans-serif
+            font-family: 'Cairo', sans-serif;
         }
 
         body {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            background: #0f2027;
-            color: white
+            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #000000);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            overflow-x: hidden;
+            cursor: none;
         }
 
-        video {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -3
-        }
-
-        .overlay {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, .65);
-            z-index: -2
-        }
-
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: -1
-        }
-
-        .loader {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: #0f2027;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: 1s
-        }
-
-        .loader h2 {
-            animation: pulse 1s infinite;
-            color: #ff9800;
-            font-weight: 900;
-            font-size: 28px;
-            text-transform: uppercase
-        }
-
-        @keyframes pulse {
+        @keyframes gradientBG {
             0% {
-                opacity: .4
+                background-position: 0% 50%;
             }
 
             50% {
-                opacity: 1
+                background-position: 100% 50%;
             }
 
             100% {
-                opacity: .4
+                background-position: 0% 50%;
             }
         }
 
         .container {
             width: 90%;
-            max-width: 700px;
-            padding: 40px;
-            border-radius: 25px;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
+            max-width: 900px;
+            padding: 40px 30px;
             text-align: center;
-            animation: fadeUp 1.5s ease
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 25px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 40px rgba(255, 152, 0, 0.4);
+            position: relative;
+            z-index: 1;
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px)
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0)
-            }
-        }
-
-        .logo {
-            font-size: 48px;
-            font-weight: 900;
-            margin-bottom: 15px;
-            letter-spacing: 3px
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 5px solid #ff9800;
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(255, 152, 0, 0.6);
         }
 
         h1 {
-            font-size: 32px;
-            margin-bottom: 10px
+            font-size: 38px;
+            font-weight: 900;
+            color: #ff9800;
+            text-shadow: 0 0 15px rgba(255, 152, 0, 0.7);
+            margin-bottom: 10px;
         }
 
-        p {
-            opacity: .8;
-            margin-bottom: 25px
+        h2 {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .about {
+            line-height: 1.8;
+            opacity: 0.85;
+            margin: 30px 0;
         }
 
         .countdown {
             display: flex;
             justify-content: center;
             gap: 15px;
+            margin: 30px 0;
             flex-wrap: wrap;
-            margin-bottom: 20px
         }
 
-        .box {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 18px;
+        .countdown div {
+            background: #111*;
+            padding: 15px 20px;
             border-radius: 12px;
             min-width: 80px;
-            transition: .3s
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
-        .box span {
-            display: block;
-            font-size: 24px;
-            font-weight: 700
+        .social-links {
+            margin: 30px 0;
         }
 
-        .progress-container {
-            width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, .2);
-            border-radius: 20px;
-            overflow: hidden;
-            margin-bottom: 20px
+        .social-links a {
+            color: white;
+            font-size: 28px;
+            margin: 0 15px;
+            transition: all 0.3s;
         }
 
-        .progress {
-            height: 100%;
-            width: 0%;
-            background: #ff9800;
-            transition: 1s
+        .social-links a:hover {
+            color: #ff9800;
+            transform: translateY(-5px);
         }
 
         form {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 20px
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         input {
-            padding: 12px;
+            padding: 14px;
             border: none;
-            border-radius: 10px;
-            outline: none
+            border-radius: 12px;
+            outline: none;
+            font-size: 16px;
         }
 
         button {
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
+            padding: 14px;
             background: #ff9800;
             color: white;
             font-weight: 700;
+            border: none;
+            border-radius: 12px;
             cursor: pointer;
-            transition: .3s
+            transition: 0.3s;
         }
 
         button:hover {
-            background: #e68900
+            background: #e68900;
+            transform: scale(1.05);
         }
 
         .success {
-            display: none;
             margin-top: 15px;
-            color: #4CAF50;
+            color: #00ffae;
             font-weight: 700;
-            font-size: 16px
+            display: none;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .cursor {
+            position: fixed;
+            width: 25px;
+            height: 25px;
+            background: rgba(255, 152, 0, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            transition: all 0.2s;
+            z-index: 9999;
+            box-shadow: 0 0 15px rgba(255, 152, 0, 0.7);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            .profile-img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .countdown {
+                gap: 10px;
+            }
+
+            .countdown div {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
         }
     </style>
+</head>
 
-    <!-- Loader -->
-    <div class="loader">
-        <h2>تحميل محمد أيمن...</h2>
-    </div>
-
-    <!-- Background -->
-    <video autoplay muted loop>
-        <source src="https://cdn.coverr.co/videos/coverr-digital-animation-background-9716/1080p.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"></div>
-    <div id="particles-js"></div>
+<body>
+    <div class="cursor" id="cursor"></div>
 
     <div class="container">
-        <div class="logo">محمد أيمن</div>
-        <h1>شيء مميز قادم قريبًا 🚀</h1>
-        <p>اكتب اسمك وبريدك لتصلك إشعار عند الإطلاق</p>
+        <img src="https://i.imgur.com/0qR8Y9J.jpeg" alt="محمد أيمن يحيا" class="profile-img">
+
+        <h1>محمد أيمن يحيا</h1>
+        <h2>طالب في جامعة السويدي | شريك مؤسس في منصة دليل الفيوم الآن</h2>
+
+        <div class="about">
+            <p>مرحبًا! أنا محمد أيمن يحيا من محافظة الفيوم، شغوف بالتكنولوجيا وريادة الأعمال.</p>
+            <p>أعمل حاليًا كشريك مؤسس في <strong>fayoum.space</strong>، المنصة الإلكترونية الأولى التي تهدف لتكون الدليل
+                الشامل لكل ما يخص الفيوم: أماكن، خدمات، أخبار، وفعاليات.</p>
+            <p>سجّل الآن لتكون أول من يعرف عند إطلاق المنصة رسميًا!</p>
+        </div>
 
         <div class="countdown">
-            <div class="box"><span id="days">00</span>يوم</div>
-            <div class="box"><span id="hours">00</span>ساعة</div>
-            <div class="box"><span id="minutes">00</span>دقيقة</div>
-            <div class="box"><span id="seconds">00</span>ثانية</div>
+            <div><span id="days">00</span><br>يوم</div>
+            <div><span id="hours">00</span><br>ساعة</div>
+            <div><span id="minutes">00</span><br>دقيقة</div>
+            <div><span id="seconds">00</span><br>ثانية</div>
         </div>
 
-        <div class="progress-container">
-            <div class="progress" id="progressBar"></div>
-        </div>
-
-        <form id="contactForm">
-            <input type="text" name="name" placeholder="اسمك" required>
-            <input type="email" name="email" placeholder="البريد الإلكتروني" required>
-            <input type="text" name="_gotcha" style="display:none">
-            <button type="submit">سجل الآن</button>
-            <div class="success" id="successMsg">✅ تم التسجيل بنجاح!</div>
+        <form id="form" action="https://formspree.io/f/xpqjpgyp" method="POST">
+            <input type="text" name="name" placeholder="اسمك الكريم" required>
+            <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
+            <input type="hidden" name="_subject" value="مشترك جديد في موقع محمد أيمن يحيا">
+            <button type="submit">سجل الآن للإطلاق</button>
         </form>
 
+        <div class="success" id="successMsg">تم التسجيل بنجاح 🎉 سيصلك إشعار عند الإطلاق!</div>
+
+        <div class="social-links">
+            <a href="https://www.facebook.com/MohmedAyman.dev" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://instagram.com/yourprofile" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com/yourprofile" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com/in/yourprofile" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://wa.me/201xxxxxxxxxx" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+
+        <div class="footer">
+            © 2026 محمد أيمن يحيا - جميع الحقوق محفوظة
+        </div>
     </div>
 
     <script>
-        // Loader
-        window.onload = function () {
-            setTimeout(() => {
-                document.querySelector(".loader").style.opacity = "0";
-                setTimeout(() => { document.querySelector(".loader").style.display = "none" }, 1000);
-            }, 1500);
-        }
-
-        // Countdown + Progress
-        const launchDate = new Date("March 30, 2026 00:00:00").getTime();
-        const startDate = new Date("January 1, 2026 00:00:00").getTime();
-
-        setInterval(() => {
+        // Countdown
+        const launchDate = new Date("2026-06-01T00:00:00").getTime();
+        const timer = setInterval(() => {
             const now = new Date().getTime();
             const distance = launchDate - now;
-            document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24));
-            document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("minutes").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            document.getElementById("seconds").innerHTML = Math.floor((distance % (1000 * 60)) / 1000);
-
-            const total = launchDate - startDate;
-            const passed = now - startDate;
-            let percent = (passed / total) * 100;
-            if (percent > 100) percent = 100;
-            document.getElementById("progressBar").style.width = percent + "%";
+            if (distance < 0) { clearInterval(timer); return; }
+            document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById("minutes").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById("seconds").innerHTML = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        // AJAX Form Submit + Auto-confirm
-        const form = document.getElementById("contactForm");
-        form.addEventListener("submit", function (e) {
+        // Form submit
+        document.getElementById("form").addEventListener("submit", function (e) {
             e.preventDefault();
-            const data = new FormData(form);
-
-            fetch("https://formspree.io/f/xpqjpgyp", {
+            fetch(this.action, {
                 method: "POST",
-                body: data,
+                body: new FormData(this),
                 headers: { 'Accept': 'application/json' }
             }).then(response => {
                 if (response.ok) {
+                    this.reset();
                     document.getElementById("successMsg").style.display = "block";
-                    form.reset();
                 }
             });
-
-            // Optional: handle errors here
         });
 
-        // Particles
-        particlesJS("particles-js", {
-            "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#ffffff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.3, "random": true }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.2, "width": 1 }, "move": { "enable": true, "speed": 2 } }
+        // Custom cursor
+        const cursor = document.getElementById("cursor");
+        document.addEventListener("mousemove", e => {
+            cursor.style.left = e.clientX + "px";
+            cursor.style.top = e.clientY + "px";
+        });
+        document.querySelectorAll("a, button").forEach(el => {
+            el.addEventListener("mouseenter", () => { cursor.style.width = "50px"; cursor.style.height = "50px"; cursor.style.background = "rgba(255,152,0,1)"; });
+            el.addEventListener("mouseleave", () => { cursor.style.width = "25px"; cursor.style.height = "25px"; cursor.style.background = "rgba(255,152,0,0.8)"; });
         });
     </script>
-
 </body>
 
 </html>
