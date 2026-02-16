@@ -11,12 +11,19 @@
     <meta name="keywords" content="محمد أيمن يحيا, الفيوم, دليل الفيوم, fayoum.space, جامعة السويدي">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6204997182116266"
         crossorigin="anonymous"></script>
+
     <!-- Open Graph for social sharing -->
     <meta property="og:title" content="محمد أيمن يحيا | fayoum.space">
     <meta property="og:description" content="شريك في منصة دليل الفيوم الآن - الموقع الرسمي">
     <meta property="og:image" content="https://i.imgur.com/0qR8Y9J.jpeg">
     <meta property="og:url" content="https://fayoum.space">
     <meta property="og:type" content="website">
+
+    <!-- تحسين تحميل الخطوط والموارد الخارجية -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://i.imgur.com">
 
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -41,6 +48,7 @@
             color: white;
             overflow-x: hidden;
             cursor: none;
+            /* سيتم إلغاؤه للأجهزة التي تفضل تقليل الحركة */
         }
 
         @keyframes gradientBG {
@@ -96,7 +104,7 @@
 
         .about {
             line-height: 1.8;
-            opacity: 0.85;
+            /* إزالة opacity لتحسين التباين */
             margin: 30px 0;
         }
 
@@ -109,7 +117,8 @@
         }
 
         .countdown div {
-            background: #111*;
+            background: #111;
+            /* تم إصلاح الخطأ */
             padding: 15px 20px;
             border-radius: 12px;
             min-width: 80px;
@@ -125,11 +134,15 @@
             font-size: 28px;
             margin: 0 15px;
             transition: all 0.3s;
+            display: inline-block;
         }
 
-        .social-links a:hover {
+        .social-links a:hover,
+        .social-links a:focus-visible {
             color: #ff9800;
             transform: translateY(-5px);
+            outline: 2px solid #ff9800;
+            outline-offset: 4px;
         }
 
         form {
@@ -140,12 +153,38 @@
             margin: 0 auto;
         }
 
+        /* تسميات مخفية ولكن مقروءة لقارئات الشاشة */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
         input {
             padding: 14px;
             border: none;
             border-radius: 12px;
             outline: none;
             font-size: 16px;
+            background: #fff;
+            color: #000;
+        }
+
+        /* تحسين تباين النص في الحقول */
+        input::placeholder {
+            color: #555;
+            /* لون أغمق للـ placeholder */
+            opacity: 1;
+        }
+
+        input:focus-visible {
+            outline: 2px solid #ff9800;
+            outline-offset: 2px;
         }
 
         button {
@@ -159,9 +198,12 @@
             transition: 0.3s;
         }
 
-        button:hover {
+        button:hover,
+        button:focus-visible {
             background: #e68900;
             transform: scale(1.05);
+            outline: 2px solid #fff;
+            outline-offset: 2px;
         }
 
         .success {
@@ -186,9 +228,22 @@
             pointer-events: none;
             mix-blend-mode: difference;
             transform: translate(-50%, -50%);
-            transition: all 0.2s;
+            transition: width 0.2s, height 0.2s, background 0.2s;
             z-index: 9999;
             box-shadow: 0 0 15px rgba(255, 152, 0, 0.7);
+            will-change: transform;
+            /* تحسين الأداء */
+        }
+
+        /* تعطيل المؤشر المخصص لمن يفضلون تقليل الحركة */
+        @media (prefers-reduced-motion: reduce) {
+            body {
+                cursor: auto;
+            }
+
+            .cursor {
+                display: none;
+            }
         }
 
         @media (max-width: 768px) {
@@ -214,10 +269,15 @@
 </head>
 
 <body>
-    <div class="cursor" id="cursor"></div>
+    <div class="cursor" id="cursor" aria-hidden="true"></div>
 
     <div class="container">
-        <img src="https://i.imgur.com/0qR8Y9J.jpeg" alt="محمد أيمن يحيا" class="profile-img">
+        <!-- استخدام عنصر picture لتقديم WebP مع fallback -->
+        <picture>
+            <source srcset="https://i.imgur.com/0qR8Y9J.webp" type="image/webp">
+            <img src="https://i.imgur.com/0qR8Y9J.jpeg" alt="محمد أيمن يحيا" class="profile-img" width="150"
+                height="150" loading="lazy">
+        </picture>
 
         <h1>محمد أيمن يحيا</h1>
         <h2>طالب في جامعة السويدي | شريك مؤسس في منصة دليل الفيوم الآن</h2>
@@ -228,14 +288,17 @@
                 الشامل لكل ما يخص الفيوم: أماكن، خدمات، أخبار، وفعاليات.</p>
             <p>سجّل الآن لتكون أول من يعرف عند إطلاق المنصة رسميًا!</p>
         </div>
+
+        <!-- إعلان AdSense (يمكن نقله إلى مكان أقل تأثيراً) -->
         <script async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6204997182116266"
             crossorigin="anonymous"></script>
         <ins class="adsbygoogle" style="display:block" data-ad-format="autorelaxed"
             data-ad-client="ca-pub-6204997182116266" data-ad-slot="5610753311"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+        <!-- إضافة عنوان مخفي للعد التنازلي -->
+        <h2 class="sr-only">موعد الإطلاق المتبقي</h2>
         <div class="countdown">
             <div><span id="days">00</span><br>يوم</div>
             <div><span id="hours">00</span><br>ساعة</div>
@@ -243,50 +306,66 @@
             <div><span id="seconds">00</span><br>ثانية</div>
         </div>
 
+        <!-- نموذج التسجيل مع تسميات مخفية -->
         <form id="form" action="https://formspree.io/f/xpqjpgyp" method="POST">
-            <input type="text" name="name" placeholder="اسمك الكريم" required>
-            <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
+            <label for="name" class="sr-only">الاسم الكريم</label>
+            <input type="text" id="name" name="name" placeholder="اسمك الكريم" required aria-required="true">
+
+            <label for="email" class="sr-only">البريد الإلكتروني</label>
+            <input type="email" id="email" name="email" placeholder="بريدك الإلكتروني" required aria-required="true">
+
             <input type="hidden" name="_subject" value="مشترك جديد في موقع محمد أيمن يحيا">
             <button type="submit">سجل الآن للإطلاق</button>
         </form>
 
-        <div class="success" id="successMsg">تم التسجيل بنجاح 🎉 سيصلك إشعار عند الإطلاق!</div>
+        <!-- رسالة النجاح مع aria-live لإعلانها لقارئات الشاشة -->
+        <div class="success" id="successMsg" aria-live="polite">تم التسجيل بنجاح 🎉 سيصلك إشعار عند الإطلاق!</div>
 
         <div class="social-links">
-            <a href="https://www.facebook.com/MohmedAyman.dev" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://instagram.com/yourprofile" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://twitter.com/yourprofile" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="https://linkedin.com/in/yourprofile" target="_blank"><i class="fab fa-linkedin"></i></a>
-            <a href="https://wa.me/201xxxxxxxxxx" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.facebook.com/MohmedAyman.dev" target="_blank" aria-label="فيسبوك"><i
+                    class="fab fa-facebook" aria-hidden="true"></i></a>
+            <a href="https://instagram.com/yourprofile" target="_blank" aria-label="إنستغرام"><i
+                    class="fab fa-instagram" aria-hidden="true"></i></a>
+            <a href="https://twitter.com/yourprofile" target="_blank" aria-label="تويتر"><i class="fab fa-twitter"
+                    aria-hidden="true"></i></a>
+            <a href="https://linkedin.com/in/yourprofile" target="_blank" aria-label="لينكد إن"><i
+                    class="fab fa-linkedin" aria-hidden="true"></i></a>
+            <a href="https://wa.me/201xxxxxxxxxx" target="_blank" aria-label="واتساب"><i class="fab fa-whatsapp"
+                    aria-hidden="true"></i></a>
         </div>
+
+        <!-- إعلان AdSense ثانٍ -->
         <script async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6204997182116266"
             crossorigin="anonymous"></script>
-        <!-- vj -->
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6204997182116266"
             data-ad-slot="4576473862" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
         <div class="footer">
             © 2026 محمد أيمن يحيا - جميع الحقوق محفوظة
         </div>
     </div>
 
     <script>
-        // Countdown
+        // عداد التنازل (مع تحسين الأداء)
         const launchDate = new Date("2026-06-01T00:00:00").getTime();
-        const timer = setInterval(() => {
+        function updateCountdown() {
             const now = new Date().getTime();
             const distance = launchDate - now;
-            if (distance < 0) { clearInterval(timer); return; }
+            if (distance < 0) {
+                clearInterval(timer);
+                return;
+            }
             document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
             document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
             document.getElementById("minutes").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
             document.getElementById("seconds").innerHTML = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
-        }, 1000);
+        }
+        updateCountdown(); // تشغيل فوري
+        const timer = setInterval(updateCountdown, 1000);
 
-        // Form submit
+        // إرسال النموذج
         document.getElementById("form").addEventListener("submit", function (e) {
             e.preventDefault();
             fetch(this.action, {
@@ -296,23 +375,33 @@
             }).then(response => {
                 if (response.ok) {
                     this.reset();
-                    document.getElementById("successMsg").style.display = "block";
+                    const successMsg = document.getElementById("successMsg");
+                    successMsg.style.display = "block";
+                    // إخفاء الرسالة بعد 5 ثوان
+                    setTimeout(() => { successMsg.style.display = "none"; }, 5000);
                 }
             });
         });
 
-        // Custom cursor
+        // مؤشر مخصص محسّن
         const cursor = document.getElementById("cursor");
         document.addEventListener("mousemove", e => {
             cursor.style.left = e.clientX + "px";
             cursor.style.top = e.clientY + "px";
         });
         document.querySelectorAll("a, button").forEach(el => {
-            el.addEventListener("mouseenter", () => { cursor.style.width = "50px"; cursor.style.height = "50px"; cursor.style.background = "rgba(255,152,0,1)"; });
-            el.addEventListener("mouseleave", () => { cursor.style.width = "25px"; cursor.style.height = "25px"; cursor.style.background = "rgba(255,152,0,0.8)"; });
+            el.addEventListener("mouseenter", () => {
+                cursor.style.width = "50px";
+                cursor.style.height = "50px";
+                cursor.style.background = "rgba(255,152,0,1)";
+            });
+            el.addEventListener("mouseleave", () => {
+                cursor.style.width = "25px";
+                cursor.style.height = "25px";
+                cursor.style.background = "rgba(255,152,0,0.8)";
+            });
         });
     </script>
 </body>
-
 
 </html>
